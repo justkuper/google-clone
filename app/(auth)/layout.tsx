@@ -4,10 +4,10 @@ import Image from "next/image";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen">
-      <section className="bg-brand p-10">
-        <div>
+      <section className="hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5">
+        <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center space-y-12">
           <Image
-            src="/logo.png"
+            src="/assets/icons/logo-full.svg"
             alt="logo"
             width={224}
             height={82}
@@ -20,10 +20,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </p>
           </div>
           <Image
-            src="/illustration.png"
+            src="/assets/images/files.png"
             alt="Files"
             width={342}
             height={342}
+            className="transition-all hover:rotate-2 hover:scale-105"
           ></Image>
         </div>
       </section>
