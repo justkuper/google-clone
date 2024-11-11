@@ -18,23 +18,29 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// Define the schema using zod
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-});
-
 // Define type for form props
 type FormTypeProps = {
   type: "sign-in" | "sign-up";
+};
+const authFormSchema = (formType: FormType) => {
+  return z.object({
+    email: z.string().email(),
+    fullName:
+      formType === "sign-up"
+        ? z.string().min(2).max(50)
+        : z.string().optional(),
+  });
 };
 
 const AuthForm = ({ type }: { FormTypeProps }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      fullName: "",
+      email: "",
     },
   });
 
