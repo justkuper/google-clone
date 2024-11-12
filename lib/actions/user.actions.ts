@@ -35,15 +35,18 @@ export const sendEmailOTP = async ({ email }: { email: string }) => {
 };
 
 // Creates a new user account or sends an OTP if the user already exists
-export const createAccount = async ({
-  fullName,
-  email,
-}: {
-  fullName: string;
-  email: string;
-}) => {
+export const createAccount = async ({ fullName, email }) => {
+  console.log("Starting account creation...");
+  const accountId = await sendEmailOTP({ email });
+  console.log("OTP sent, accountId:", accountId);
+
+  if (!accountId) {
+    throw new Error("Failed to send OTP");
+  }
+
   try {
     const existingUser = await getUserByEmail(email);
+    console.log("Existing user check:", existingUser);
 
     // Attempt to send OTP email
     const accountId = await sendEmailOTP({ email });
