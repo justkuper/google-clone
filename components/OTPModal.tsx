@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/input-otp";
 import React, { FormEvent, useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const OtpModal = ({
   accountId,
@@ -87,14 +88,27 @@ const OtpModal = ({
               type="button"
             >
               Submit
-              <Image
-                src="/assets/icons/loader.svg"
-                alt="loader"
-                width={24}
-                height={24}
-                className="ml-2 animate-spin"
-              />
+              {isLoading && (
+                <Image
+                  src="/assets/icons/loader.svg"
+                  alt="loader"
+                  width={24}
+                  height={24}
+                  className="ml-2 animate-spin"
+                />
+              )}
             </AlertDialogAction>
+            <div>
+              Didn&apos;t get a code?
+              <Button
+                type="button"
+                variant="link"
+                className="pl-1 text-brand"
+                onClick={handleResendOtp}
+              >
+                Click to resend
+              </Button>
+            </div>
           </div>
         </AlertDialogFooter>
       </AlertDialogContent>
