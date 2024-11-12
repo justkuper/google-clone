@@ -1,24 +1,25 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import React, { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { string } from "zod";
+import { useRouter } from "next/navigation";
 
 const OtpModal = ({
   accountId,
@@ -27,6 +28,7 @@ const OtpModal = ({
   accountId: string;
   email: string;
 }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +39,11 @@ const OtpModal = ({
 
     try {
       // Call API to verify OTP
+      const sessionId = await verifySecret({ accountId, password });
+
+      console.log({ sessionId });
+
+      if (sessionId) router.push("/");
     } catch (error) {
       console.log("Failed to verify OTP", error);
     }
@@ -98,7 +105,7 @@ const OtpModal = ({
                 />
               )}
             </AlertDialogAction>
-            <div>
+            <div className="subtitle-2 mt-2 text-center text-light-100">
               Didn&apos;t get a code?
               <Button
                 type="button"
